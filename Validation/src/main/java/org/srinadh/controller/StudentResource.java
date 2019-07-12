@@ -12,6 +12,8 @@ import javax.ws.rs.Produces;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,9 +38,20 @@ public class StudentResource {
 	}
 	
 	
-	/*
-	 * @GetMapping("/student/{id}") public Student getStudent(@PathVariable Long id)
-	 * { Student student= studentRepository.findById(id); return null; }
-	 */
+	
+	  @GetMapping("/student/{id}") 
+	  public ResponseEntity<Student> getStudent(@PathVariable Long id) { 
+		  Optional<Student> student= studentRepository.findById(id);
+		  if(id==null) {
+			 System.out.println("no such id found");
+			 return new ResponseEntity(HttpStatus.NOT_FOUND);
+		  }else 
+			  System.out.println("the selected id details are "+id);
+		  return new ResponseEntity(student,HttpStatus.OK); 
+		  }
+
+
+
+	 
 
 }
